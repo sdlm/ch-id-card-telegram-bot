@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-test-server
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  app:
+    build: .
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - test-server
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TELEGRAM_CHANNEL_TOKEN=
+      - CHINESE_ID_CARD_API_HOST=test-server:8000
